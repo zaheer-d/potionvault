@@ -1,0 +1,91 @@
+[
+  {
+    "name" : "Blue Voodoo",
+    "credit" : "http://url.com",
+    "favourite" : false,
+    "category": "fruity",
+    "concentrates" : [
+      {
+        "concentrate" : "TFA Juicy Peach",
+        "perc" : "10",
+        "total" : 0
+      },
+      {
+        "concentrate" : "TFA Raspberry Sweet",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "Sweetner",
+        "perc" : "2",
+        "total" : 0
+      }
+    ]
+  },
+  {
+    "name" : "Custom Peach",
+    "credit" : "http://url.com",
+    "favourite" : false,
+    "category": "fruity",
+    "concentrates" : [
+      {
+        "concentrate" : "TFA Juicy Peach",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "CAP Yellow Peach",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "TFA Raspberry Sweet",
+        "perc" : "3",
+        "total" : 0
+      },
+      {
+        "concentrate" : "TFA Strawberry Sweet",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "Creamy Coconut",
+        "perc" : "3",
+        "total" : 0
+      }
+    ]
+  },
+  {
+    "name" : "Custom Peach",
+    "credit" : "http://url.com",
+    "favourite" : false,
+    "category": "fruity",
+    "concentrates" : [
+      {
+        "concentrate" : "TFA Juicy Peach",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "CAP Yellow Peach",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "TFA Raspberry Sweet",
+        "perc" : "3",
+        "total" : 0
+      },
+      {
+        "concentrate" : "TFA Strawberry Sweet",
+        "perc" : "5",
+        "total" : 0
+      },
+      {
+        "concentrate" : "Creamy Coconut",
+        "perc" : "3",
+        "total" : 0
+      }
+    ]
+  }
+]
