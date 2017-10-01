@@ -1,7 +1,22 @@
 <template>
+    <div class="row">
+        <div class="col s12">
+            <div class="card amber darken-1">
+                <div class="card-content white-text">
+                    <span class="card-title">Settings</span>
+                    <strong>Nicotine : {{TotalNicotine}} ml</strong>
+                    <strong>Nicotine : {{nicotineStrength}} ml</strong>
+                </div>
+                <div class="card-action">
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </div>
+            </div>
+
+    <br>
         <ul class="collapsible popout" data-collapsible="accordion">
             <li v-for="(recipe, index) in recipes">
-                <div class="collapsible-header" :click=""><i class="material-icons"><img src="./../assets/chemistry.png" width="32px" height="32px" alt="" /></i>{{recipe.name}}</div>
+                <div class="collapsible-header"><i class="material-icons"><img src="./../assets/chemistry.png" width="32px" height="32px" alt="" /></i>{{recipe.name}}</div>
                 <div class="collapsible-body">
                     <table class="bordered striped">
                         <thead>
@@ -16,38 +31,60 @@
                         <tr v-for="concentrate in recipe.concentrates">
                             <td>{{concentrate.concentrate}}</td>
                             <td>{{concentrate.perc}}</td>
-                            <td>0</td>
+                            <td>{{concentrate.total}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </li>
         </ul>
-
+        </div>
+    </div>
 </template>
 <script>
     import data from '../data/recipes.json';
+    import * as RecipeFormula from '../services/RecipeFormulas';
+    import { SettingEvents } from '../Events';
 
     export default {
         name: 'list-card',
         data() {
             return {
                 title : 'list-card from title',
-                recipes : data,
-                activeIndex : null
+                recipes : [],
+                activeIndex : null,
+                nicotineStrength:0,
+                nicotineTarget : 0,
+                batchTotal : 0,
+                TotalNicotine : 0
             }
         },
         methods: {
-            isActive(i){
-                //if (this.isactive){
-                    alert(i);
-                    console.log(i);
-                //}
+            onSettingsUpdated(nicS, nicT, bSize){
+                const batchSize = bSize;
+                const vm = this;
+                vm.recipes = [];
+                data.forEach(function(recipe, index){
+                    vm.recipes.push({"name" : recipe.name,
+                        "credit" : recipe.credit,
+                        "favourite" : recipe.favourite,
+                        "category": recipe.category,
+                        "concentrates" : []});
 
+                    data[index].concentrates.forEach(function(c, i){
+                        let perc = data[index].concentrates[i].perc;
+                        let total = RecipeFormula.GetConcentrates(perc, batchSize);
+                        let con = {
+                            "concentrate" : c.concentrate,
+                            "perc" : c.perc,
+                            "total" : total +" ml"
+                        };
+                        vm.recipes[index].concentrates.push(con);
+                        console.log(con);
+                        console.log('Total : '+RecipeFormula.GetConcentrates(perc, batchSize));
+                    });
+                });
             },
-            setActiveIndex(i) {
-                this.activeIndex = i;
-            }
         },
         mounted : function(){
             var vm = this;
@@ -57,6 +94,16 @@
                 }
             });
 
+            SettingEvents.$on('settings-update', (nicotineStrength, targetStrength, batchSize) => {
+                vm.batchTotal = batchSize;
+                vm.nicotineStrength = nicotineStrength;
+                vm.nicotineTarget = targetStrength;
+                var nic = RecipeFormula.GetNicotine(nicotineStrength, targetStrength, batchSize);
+                vm.TotalNicotine = nic;
+                vm.onSettingsUpdated(nicotineStrength, targetStrength, batchSize);
+            });
+            //const batchSize = vm.batchTotal;
+            vm.onSettingsUpdated(0, 0, 0);
         }
 
     }
