@@ -6,7 +6,7 @@
           <img src="./assets/summer.jpg">
         </div>
         <a href="#!user"><img class="circle" src="./assets/flask.png"></a>
-        <a href="#!name"><h4 class="white-text">Vape Vault</h4></a>
+        <a href="#!name"><h4 class="white-text">Potion Vault</h4></a>
       </div></li>
       <li><a class="subheader">Recipe Categories</a></li>
       <li><a href="sass.html">Fruity</a></li>
