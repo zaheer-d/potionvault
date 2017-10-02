@@ -1,20 +1,22 @@
 <template>
     <div class="row">
         <div class="col s12">
-            <div class="card amber darken-1">
-                <div class="card-content white-text">
-                    <span class="card-title">Settings</span>
-                    <strong>Nicotine : {{TotalNicotine}} ml</strong>
-                    <strong>Nicotine : {{nicotineStrength}} ml</strong>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Base Recipe </span>
+                    <strong>VG : {{totalVG}} ml</strong>
+                    <strong>PG : {{totalPG}} ml</strong>
+                    <strong>Nicotine : {{TotalNicotine}} ml</strong> <br/>
+                    <strong>Strength : {{nicotineStrength}} g/ml</strong>
                 </div>
-                <div class="card-action">
-                    <a href="#">This is a link</a>
-                    <a href="#">This is a link</a>
-                </div>
+                <!--<div class="card-action">-->
+                    <!--<a href="#">This is a link</a>-->
+                    <!--<a href="#">This is a link</a>-->
+                <!--</div>-->
             </div>
 
     <br>
-        <ul class="collapsible popout" data-collapsible="accordion">
+        <ul class="collapsible" data-collapsible="accordion">
             <li v-for="(recipe, index) in recipes">
                 <div class="collapsible-header"><i class="material-icons"><img src="./../assets/chemistry.png" width="32px" height="32px" alt="" /></i>{{recipe.name}}</div>
                 <div class="collapsible-body">
@@ -22,8 +24,8 @@
                         <thead>
                         <tr>
                             <th>Flavour</th>
-                            <th>Percentage</th>
-                            <th>Total</th>
+                            <th>%</th>
+                            <th>ml</th>
                         </tr>
                         </thead>
 
@@ -85,9 +87,14 @@
                     });
                 });
             },
+
+            isActive(el){
+                alert(el);
+            }
         },
         mounted : function(){
             var vm = this;
+
             $('.collapsible').collapsible({
                 onOpen: function(el){
                     vm.isActive(el);
