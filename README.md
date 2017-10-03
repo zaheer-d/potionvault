@@ -1,6 +1,6 @@
-# recipes
+# Potion Vault
 
-> A Vue.js project
+> A Vue.js project used to make a very simple ejuice calculator for me.
 
 ## Build Setup
 
