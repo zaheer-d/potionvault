@@ -1,20 +1,20 @@
 <template>
     <div class="row">
         <form class="col s12">
-            <div class="row">
-                <div class="col s4"><p>
-                    <input name="group1" type="radio" id="test1" />
-                    <label for="test1">80/20</label>
-                </p></div>
-                <div class="col s4"><p>
-                    <input name="group1" type="radio" id="test2" />
-                    <label for="test2">70/30</label>
-                </p></div>
-                <div class="col s4"><p>
-                    <input name="group1" type="radio" id="test3" />
-                    <label for="test3">50/50</label>
-                </p></div>
-            </div>
+            <!--<div class="row">-->
+                <!--<div class="col s4"><p>-->
+                    <!--<input name="group1" type="radio" id="test1" />-->
+                    <!--<label for="test1">80/20</label>-->
+                <!--</p></div>-->
+                <!--<div class="col s4"><p>-->
+                    <!--<input name="group1" type="radio" id="test2" />-->
+                    <!--<label for="test2">70/30</label>-->
+                <!--</p></div>-->
+                <!--<div class="col s4"><p>-->
+                    <!--<input name="group1" type="radio" id="test3" />-->
+                    <!--<label for="test3">50/50</label>-->
+                <!--</p></div>-->
+            <!--</div>-->
             <div class="row">
                 <div class="input-field col s12">
                     <input placeholder="Total (10ml - 100ml)" v-model="batchSize" id="volume" type="text" class="validate">

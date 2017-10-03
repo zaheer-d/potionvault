@@ -3,10 +3,11 @@
         <div class="col s12">
             <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Base Recipe </span>
-                    <strong>VG : {{totalVG}} ml</strong>
-                    <strong>PG : {{totalPG}} ml</strong>
-                    <strong>Nicotine : {{TotalNicotine}} ml</strong> <br/>
+                    <span class="card-title">Base Recipe </span> <br/>
+                    <strong>VG : {{totalVG}} ml - [ {{totalVGW}} g ]</strong> <br/>
+                    <strong>PG : {{totalPG}} ml - [ {{totalPGW}} g ]</strong> <br/>
+                    <strong>Flavour : {{totalFlavour}} ml - [ {{totalFlavourW}} g ]</strong> <br/>
+                    <strong>Nicotine : {{TotalNicotine}} ml - [ {{TotalNicotineW}} g ]</strong> <br/>
                     <strong>Strength : {{nicotineStrength}} g/ml</strong>
                 </div>
                 <!--<div class="card-action">-->
@@ -26,6 +27,7 @@
                             <th>Flavour</th>
                             <th>%</th>
                             <th>ml</th>
+                            <th>g</th>
                         </tr>
                         </thead>
 
@@ -33,7 +35,9 @@
                         <tr v-for="concentrate in recipe.concentrates">
                             <td>{{concentrate.concentrate}}</td>
                             <td>{{concentrate.perc}}</td>
-                            <td>{{concentrate.total}}</td>
+                            <td>{{concentrate.total}} ml</td>
+                            <td>{{concentrate.weight}} g</td>
+
                         </tr>
                         </tbody>
                     </table>
@@ -58,7 +62,14 @@
                 nicotineStrength:0,
                 nicotineTarget : 0,
                 batchTotal : 0,
-                TotalNicotine : 0
+                TotalNicotine : 0,
+                totalPG : 0,
+                totalVG : 0,
+                totalFlavour : 0,
+                totalPGW : 0,
+                totalVGW : 0,
+                totalFlavourW : 0,
+                TotalNicotineW : 0
             }
         },
         methods: {
@@ -79,27 +90,53 @@
                         let con = {
                             "concentrate" : c.concentrate,
                             "perc" : c.perc,
-                            "total" : total +" ml"
+                            "total" : total,
+                            "weight": RecipeFormula.GetConcentratesW(total).toFixed(2)
                         };
                         vm.recipes[index].concentrates.push(con);
-                        console.log(con);
-                        console.log('Total : '+RecipeFormula.GetConcentrates(perc, batchSize));
+                        //console.log(con);
+                        //console.log('Total : '+RecipeFormula.GetConcentrates(perc, batchSize));
                     });
                 });
             },
 
-            isActive(el){
-                alert(el);
+            getSelectedRecipe(el){
+                const index = el.index();
+                //alert(el);
+
+                let totalFlavour = 0;
+
+                this.recipes[index].concentrates.forEach(function(item){
+                      //console.log(item);
+                    if (item.total > 0)
+                      totalFlavour += Number(item.total);
+                });
+
+                //console.log(vg);
+                let pg = RecipeFormula.GetTotalBaseVgOrPg(this.batchTotal, 20);
+                let vg = RecipeFormula.GetTotalBaseVgOrPg(this.batchTotal, 80);
+
+                let totalpg = pg - (Number(this.TotalNicotine) + totalFlavour);
+                if (totalpg < 0)
+                {
+                    pg = RecipeFormula.GetTotalBaseVgOrPg(this.batchTotal, 30);
+                    vg = RecipeFormula.GetTotalBaseVgOrPg(this.batchTotal, 70);
+                    totalpg = pg - (Number(this.TotalNicotine) + totalFlavour);
+                }
+
+                this.totalVGW = RecipeFormula.GetTotalBaseVgW(vg).toFixed(2);
+                this.totalPGW = RecipeFormula.GetTotalBasePgW(totalpg).toFixed(2);
+                this.totalFlavour =  totalFlavour.toFixed(2);
+                this.totalPG =  totalpg.toFixed(2);
+                this.totalVG = vg;
+                this.TotalNicotineW = RecipeFormula.GetNicotineW(this.TotalNicotine);
+                this.totalFlavourW = RecipeFormula.GetConcentratesW(totalFlavour);
             }
         },
         mounted : function(){
-            var vm = this;
+            const vm = this;
 
-            $('.collapsible').collapsible({
-                onOpen: function(el){
-                    vm.isActive(el);
-                }
-            });
+
 
             SettingEvents.$on('settings-update', (nicotineStrength, targetStrength, batchSize) => {
                 vm.batchTotal = batchSize;
@@ -108,6 +145,14 @@
                 var nic = RecipeFormula.GetNicotine(nicotineStrength, targetStrength, batchSize);
                 vm.TotalNicotine = nic;
                 vm.onSettingsUpdated(nicotineStrength, targetStrength, batchSize);
+
+                $('.collapsible').collapsible({
+                    onOpen: function(el){
+                       // alert(el.index());
+                        vm.getSelectedRecipe(el);
+                    }
+                });
+
             });
             //const batchSize = vm.batchTotal;
             vm.onSettingsUpdated(0, 0, 0);
