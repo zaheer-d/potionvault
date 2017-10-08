@@ -48,9 +48,10 @@
     </div>
 </template>
 <script>
-    import data from '../data/recipes.json';
+    //import data from '../data/recipes.json';
     import * as RecipeFormula from '../services/RecipeFormulas';
     import { SettingEvents } from '../Events';
+    import * as firebase from 'firebase'
 
     export default {
         name: 'list-card',
@@ -58,6 +59,7 @@
             return {
                 title : 'list-card from title',
                 recipes : [],
+                rawData : [],
                 activeIndex : null,
                 nicotineStrength:0,
                 nicotineTarget : 0,
@@ -77,15 +79,16 @@
                 const batchSize = bSize;
                 const vm = this;
                 vm.recipes = [];
-                data.forEach(function(recipe, index){
+                //vm.rawData = ;
+                vm.rawData.forEach(function(recipe, index){
                     vm.recipes.push({"name" : recipe.name,
                         "credit" : recipe.credit,
                         "favourite" : recipe.favourite,
                         "category": recipe.category,
                         "concentrates" : []});
 
-                    data[index].concentrates.forEach(function(c, i){
-                        let perc = data[index].concentrates[i].perc;
+                    recipe.concentrates.forEach(function(c, i){
+                        let perc = recipe.concentrates[i].perc;
                         let total = RecipeFormula.GetConcentrates(perc, batchSize);
                         let con = {
                             "concentrate" : c.concentrate,
@@ -99,7 +102,6 @@
                     });
                 });
             },
-
             getSelectedRecipe(el){
                 const index = el.index();
                 //alert(el);
@@ -131,19 +133,33 @@
                 this.totalVG = vg;
                 this.TotalNicotineW = RecipeFormula.GetNicotineW(this.TotalNicotine);
                 this.totalFlavourW = RecipeFormula.GetConcentratesW(totalFlavour);
+            },
+            getData(){
+              const vm = this;
+              //const db = firebase.database();
+              firebase.database().ref().once('value').then((snapshot) => {
+                  console.log(snapshot.val());
+                  const res = snapshot.val();
+                  res.forEach(function(r){
+                      vm.rawData.push(r);
+                  });
+
+                  vm.onSettingsUpdated(0, 0, 0);
+                  //console.log(snapshot.val());
+              });
+              //console.log(db);
+              //this.$http.get()
             }
         },
         mounted : function(){
             const vm = this;
-
-
+            vm.getData();
 
             SettingEvents.$on('settings-update', (nicotineStrength, targetStrength, batchSize) => {
                 vm.batchTotal = batchSize;
                 vm.nicotineStrength = nicotineStrength;
                 vm.nicotineTarget = targetStrength;
-                var nic = RecipeFormula.GetNicotine(nicotineStrength, targetStrength, batchSize);
-                vm.TotalNicotine = nic;
+                vm.TotalNicotine = RecipeFormula.GetNicotine(nicotineStrength, targetStrength, batchSize);
                 vm.onSettingsUpdated(nicotineStrength, targetStrength, batchSize);
 
                 $('.collapsible').collapsible({
@@ -155,7 +171,8 @@
 
             });
             //const batchSize = vm.batchTotal;
-            vm.onSettingsUpdated(0, 0, 0);
+            //vm.onSettingsUpdated(0, 0, 0);
+
         }
 
     }
