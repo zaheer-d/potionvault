@@ -8,11 +8,11 @@
         <a href="#!user"><img class="circle" src="./assets/flask.png"></a>
         <a href="#!name"><h4 class="white-text">Potion Vault</h4></a>
       </div></li>
-      <li><a class="subheader">Recipe Categories</a></li>
-      <li><a href="sass.html">Fruity</a></li>
-      <li><a href="badges.html">Desserts</a></li>
-      <li><a href="collapsible.html">Experimental</a></li>
-      <li><div class="divider"></div></li>
+      <!--<li><a class="subheader">Recipe Categories</a></li>-->
+      <!--<li><a href="sass.html">Fruity</a></li>-->
+      <!--<li><a href="badges.html">Desserts</a></li>-->
+      <!--<li><a href="collapsible.html">Experimental</a></li>-->
+      <!--<li><div class="divider"></div></li>-->
       <li><a class="subheader">Settings</a></li>
       <li>
         <global-setting></global-setting>
