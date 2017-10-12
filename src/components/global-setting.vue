@@ -55,7 +55,7 @@
           return {
               batchSize : 100,
               nicotineTarget : 2,
-              nicotineStrength : ''
+              nicotineStrength : '36'
           }
         },
         methods:{
