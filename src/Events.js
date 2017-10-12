@@ -7,3 +7,11 @@ export const SettingEvents = new Vue({
       }
     }
 });
+
+export const RecipeEvents = new Vue({
+    methods:{
+        SaveRecipes(recipes){
+            this.$emit('save-recipe', recipes);
+        }
+    }
+});

@@ -21,9 +21,20 @@
 
     <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
 
-    <div class="container main">
-      <div class="s12"><list-card></list-card></div>
+    <div class="row container main">
+      <div class="col s12"><list-card></list-card></div>
     </div>
+    <div class="row">
+      <div class="col s12">
+        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+          <a class="btn-floating btn-large red" @click="openModel">
+            <i class="material-icons">add</i>
+          </a>
+        </div>
+        <!--<a class="btn-floating btn-large right waves-effect waves-light red" href="#modal1" @click="openModel"><i class="material-icons">add</i></a>-->
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -42,7 +53,12 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
-  }
+  },
+    methods:{
+        openModel(){
+            $('#modal1').modal('open');
+        }
+    }
 }
 </script>
 

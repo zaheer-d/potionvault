@@ -30,14 +30,12 @@
                             <th>g</th>
                         </tr>
                         </thead>
-
                         <tbody>
                         <tr v-for="concentrate in recipe.concentrates">
                             <td>{{concentrate.concentrate}}</td>
                             <td>{{concentrate.perc}}</td>
                             <td>{{concentrate.total}} ml</td>
                             <td>{{concentrate.weight}} g</td>
-
                         </tr>
                         </tbody>
                     </table>
@@ -45,16 +43,27 @@
             </li>
         </ul>
         </div>
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <add-new-recipe :count="rawData"></add-new-recipe>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
     //import data from '../data/recipes.json';
     import * as RecipeFormula from '../services/RecipeFormulas';
-    import { SettingEvents } from '../Events';
+    import { SettingEvents,RecipeEvents } from '../Events';
     import * as firebase from 'firebase'
+    import AddNewRecipe from './add-new-recipe.vue';
 
     export default {
         name: 'list-card',
+        components: { AddNewRecipe },
         data() {
             return {
                 title : 'list-card from title',
@@ -136,7 +145,6 @@
             },
             getData(){
               const vm = this;
-              //const db = firebase.database();
               firebase.database().ref().once('value').then((snapshot) => {
                   console.log(snapshot.val());
                   const res = snapshot.val();
@@ -147,14 +155,49 @@
                   vm.onSettingsUpdated(0, 0, 0);
                   //console.log(snapshot.val());
               });
-              //console.log(db);
-              //this.$http.get()
-            }
+
+            },
+//            save(){
+//                firebase.database().ref().set({
+//                    "name" : "Blue Voodoo",
+//                    "credit" : "http://url.com",
+//                    "favourite" : false,
+//                    "category": "fruity",
+//                    "concentrates" : [
+//                    {
+//                        "concentrate" : "TFA Juicy Peach",
+//                        "perc" : "10",
+//                        "total" : 0
+//                    },
+//                    {
+//                        "concentrate" : "TFA Raspberry Sweet",
+//                        "perc" : "5",
+//                        "total" : 0
+//                    },
+//                    {
+//                        "concentrate" : "Sweetner",
+//                        "perc" : "2",
+//                        "total" : 0
+//                    }
+//                ]
+//            });
+//            }
         },
         mounted : function(){
             const vm = this;
             vm.getData();
 
+            $('.modal').modal({
+                dismissible: true, // Modal can be dismissed by clicking outside of the modal
+                opacity: .5, // Opacity of modal background
+                inDuration: 300, // Transition in duration
+                outDuration: 200, // Transition out duration
+                startingTop: '4%', // Starting top style attribute
+                endingTop: '10%',
+                complete : function(){
+                    RecipeEvents.SaveRecipes(null);
+                }
+            });
             SettingEvents.$on('settings-update', (nicotineStrength, targetStrength, batchSize) => {
                 vm.batchTotal = batchSize;
                 vm.nicotineStrength = nicotineStrength;
@@ -170,9 +213,6 @@
                 });
 
             });
-            //const batchSize = vm.batchTotal;
-            //vm.onSettingsUpdated(0, 0, 0);
-
         }
 
     }
