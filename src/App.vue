@@ -19,7 +19,7 @@
       </li>
     </ul>
 
-    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="medium material-icons black-text">menu</i></a>
 
     <div class="row container main">
       <div class="col s12"><list-card></list-card></div>
@@ -58,6 +58,9 @@ export default {
         openModel(){
             $('#modal1').modal('open');
         }
+    },
+    mounted: function() {
+        $(".button-collapse").sideNav();
     }
 }
 </script>

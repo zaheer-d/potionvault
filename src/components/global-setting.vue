@@ -74,9 +74,15 @@
 
             $('select').material_select();
 
-            $('select').change((event)=>{
+            $('select').change((event) => {
                 vm.updateValue(event.target.value);
-            })
+            });
+
+
+        },
+        update: function() {
+            console.log('update', 'SettingsUpdated');
+            SettingEvents.SettingsUpdated(this.nicotineStrength,this.nicotineTarget,this.batchSize);
 
         }
     }

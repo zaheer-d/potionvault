@@ -10,3 +10,6 @@ gen
 .gitignore
 .idea/
 node_modules/
+.firebaserc
+dist/
+firebase.json

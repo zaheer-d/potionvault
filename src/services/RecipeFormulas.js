@@ -19,10 +19,17 @@ export function GetTotalBaseVgOrPg(totalVolume, ratio){
   return (ratio / 100) * totalVolume;
 }
 
+/**
+ * @return {number}
+ */
 export function GetConcentratesW(total){
+    console.log('ConcentrateW', (total) * 1.26);
     return (total) * 1.26;
 }
 
+/**
+ * @return {number}
+ */
 export function GetConcentrates(perc, totalVolume){
     return (perc / 100) * totalVolume;
 }

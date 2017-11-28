@@ -1,15 +1,29 @@
 <template>
     <div class="row">
         <div class="col s12">
-            <div class="card">
-                <div class="card-content">
-                    <span class="card-title">Base Recipe </span> <br/>
-                    <strong>VG : {{totalVG}} ml - [ {{totalVGW}} g ]</strong> <br/>
-                    <strong>PG : {{totalPG}} ml - [ {{totalPGW}} g ]</strong> <br/>
-                    <strong>Flavour : {{totalFlavour}} ml - [ {{totalFlavourW}} g ]</strong> <br/>
-                    <strong>Nicotine : {{TotalNicotine}} ml - [ {{TotalNicotineW}} g ]</strong> <br/>
-                    <strong>Strength : {{nicotineStrength}} g/ml</strong>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">settings </span> <br/>
+                          </div>
+                    </div>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <div class="card">
+                        <div class="card-content">
+                            <span class="card-title">Base Recipe </span> <br/>
+                            <strong>VG : {{totalVG}} ml - [ {{totalVGW}} g ]</strong> <br/>
+                            <strong>PG : {{totalPG}} ml - [ {{totalPGW}} g ]</strong> <br/>
+                            <strong>Flavour : {{totalFlavour}} ml - [ {{totalFlavourW}} g ]</strong> <br/>
+                            <strong>Nicotine : {{TotalNicotine}} ml - [ {{TotalNicotineW}} g ]</strong> <br/>
+                            <strong>Strength : {{nicotineStrength}} g/ml</strong>
+                        </div>
+                </div>
+            </div>
+
                 <!--<div class="card-action">-->
                     <!--<a href="#">This is a link</a>-->
                     <!--<a href="#">This is a link</a>-->
@@ -141,7 +155,7 @@
                 this.totalPG =  totalpg.toFixed(2);
                 this.totalVG = vg;
                 this.TotalNicotineW = RecipeFormula.GetNicotineW(this.TotalNicotine);
-                this.totalFlavourW = RecipeFormula.GetConcentratesW(totalFlavour);
+                this.totalFlavourW = RecipeFormula.GetConcentratesW(totalFlavour).toFixed(2);
             },
             getData(){
               const vm = this;
